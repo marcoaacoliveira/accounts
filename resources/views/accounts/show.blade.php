@@ -1,6 +1,17 @@
 @extends('app')
 
 @section('content')
+    @if(session()->has('success'))
+        <div class="alert alert-success">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Successo!</strong> {{session('success')}}
+        </div>
+    @elseif(session()->has('error'))
+        <div class="alert alert-success">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Success!</strong> {{session('error')}}
+        </div>
+    @endif
     <h1>ID: {{$account->id}}</h1>
     <h2>Total: {{$account->total}}</h2>
     <hr>
@@ -31,7 +42,7 @@
                 </td>
                 <td>
                     <a href='/charges/{{$account->id}}/show/{{$charge->id}}'>Ver</a>
-                    <a href="" onclick='confirmDelete("/accounts/{{$charge->id}}")'>Remover</a>
+                    <a href="" onclick='confirmDelete("/charges/{{$charge->id}}")'>Remover</a>
                 </td>
             </tr>
         @endforeach

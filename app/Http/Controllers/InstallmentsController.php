@@ -21,10 +21,12 @@ class InstallmentsController extends Controller
                     $account->total-= $installment->value;
                 }
                 if($account->save()){
+                    session()->flash('success','Conta paga com sucesso!');
                     return redirect('accounts/'.$account->id);
                 }
             }
         }
+        session()->flash('error', 'Pagamento falhou!');
         return redirect('accounts/');
     }
 }

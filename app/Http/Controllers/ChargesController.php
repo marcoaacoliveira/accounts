@@ -18,14 +18,25 @@ class ChargesController extends Controller
 
     public function store($account, Requests\ChargesRequest $request){
         $request = $request->all();
+        $success = true;
         $charge = new Charge();
         $charge->account_id = (int)$account;
         $charge->description = $request['description'];
         $charge->type = $request['type'];
         if($charge->save()){
             foreach($request['installments'] as $value){
-                Installment::create(["value"=>$value,"charge_id"=>$charge->id, "paid"=>0]);
+                if(!Installment::create(["value"=>$value,"charge_id"=>$charge->id, "paid"=>0])){
+                    $success = false;
+                }
             }
+        }else{
+            $success=false;
+        }
+
+        if($success){
+            session()->flash('success','Criação bem sucedida!');
+        } else{
+            session()->flash('error','Criação falhou!');
         }
 
         return redirect("accounts/".$account);
@@ -37,6 +48,10 @@ class ChargesController extends Controller
     }
 
     public function delete(Charge $charge){
-        $charge->delete();
+        if($charge->delete()){
+            session()->flash('success','Remoção bem sucedida!');
+        } else {
+            session()->flash('error', 'Remoção falhou!');
+        }
     }
 }

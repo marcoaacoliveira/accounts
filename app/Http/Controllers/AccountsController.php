@@ -24,7 +24,12 @@ class AccountsController extends Controller
     }
 
     public function store(Requests\AccountsRequest $request){
-        Account::create($request->all());
+        if(Account::create($request->all())){
+            session()->flash('success','Criação bem sucedida!');
+        } else{
+            session()->flash('error','Criação falhou!');
+        }
+
         return redirect('accounts');
     }
 
@@ -37,12 +42,20 @@ class AccountsController extends Controller
     public function update($id, Requests\AccountsRequest $request){
         $account = Account::findOrFail($id);
 
-        $account->update($request->all());
+        if($account->update($request->all())){
+            session()->flash('success','Atualização bem sucedida!');
+        } else{
+            session()->flash('error','Atualização falhou!');
+        }
 
         return redirect('accounts');
     }
 
     public function delete(Account $account){
-        $account->delete();
+        if($account->delete()) {
+            session()->flash('success','Remoção bem sucedida!');
+        } else {
+            session()->flash('error','Remoção falhou!');
+        }
     }
 }
