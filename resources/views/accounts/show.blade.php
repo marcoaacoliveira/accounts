@@ -24,7 +24,7 @@
                 Descrição
             </td>
             <td>
-                Valor total
+                Valor restante
             </td>
             <td>
                 Controles

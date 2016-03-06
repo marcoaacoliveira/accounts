@@ -14,7 +14,7 @@
         <tbody>
             @foreach($installments as $installment)
                 <tr>
-                    <td>R$ {{$installment['value']}}</td>
+                    <td>R$ {{$charge->type==0 ? $installment['value'] : -1.00*$installment['value']}}</td>
                     @if($installment['paid']==0)
                         <td>Não</td>
                     @else
